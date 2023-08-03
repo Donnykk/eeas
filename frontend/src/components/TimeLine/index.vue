@@ -5,13 +5,13 @@
                 <div class="out-circle">
                     <div class="in-circle"></div>
                     <div class="timeline-date">
-                        <el-button plain type="primary" size="mini" @click="refresh(item.date)">
+                        <el-button plain type="primary" size="small" @click="refresh(item.date)">
                             {{ item.date }}
                         </el-button>
                     </div>
                 </div>
                 <div class="long-line" v-show="item.isShow"
-                    :style="`width:${item.children ? (item.children.length + 1) * 80 : 1 * 80}px`">
+                    :style="`width:${item.children ? (item.children.length + 1) * 120 : 1 * 120}px`">
                 </div>
             </div>
         </li>
@@ -44,8 +44,8 @@ ul.timeline-wrapper {
     list-style: none;
     margin: 0;
     padding-top: 20px;
-    padding-bottom: 50px;
-    padding-left: 50px;
+    padding-bottom: 60px;
+    padding-left: 60px;
     padding-right: 20px;
     white-space: nowrap;
     overflow-x: auto;
@@ -57,8 +57,8 @@ ul.timeline-wrapper {
     display: inline-block;
 
     .timeline-box {
-        text-align: center;
-        // position: absolute;
+        text-align: match-parent;
+        position: relative;
         display: flex;
         align-items: center;
 
@@ -85,7 +85,7 @@ ul.timeline-wrapper {
             .timeline-date {
                 color: #333;
                 margin-top: 60px;
-                margin-left: -30px;
+                margin-left: -40px;
 
                 .father-text {
                     font-weight: 700;

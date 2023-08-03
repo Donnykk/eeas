@@ -12,7 +12,6 @@
 <script>
 import { listArea } from "@/api/data/event";
 import { Timeline } from "@/components/TimeLine/index";
-
 export default {
     data() {
         return {
@@ -27,76 +26,46 @@ export default {
             timeLineArr: [
                 {
                     id: 1,
-                    date: "2022-01",
-                    content: "2022-01",
+                    date: "2022-01-08",
+                    content: "2022-01-08",
                     isShow: true,
                 },
                 {
                     id: 2,
-                    date: "2022-02",
-                    content: "2022-02",
+                    date: "2022-01-09",
+                    content: "2022-01-08",
                     isShow: true,
                 },
                 {
                     id: 3,
-                    date: "2022-03",
-                    content: "2022-03",
+                    date: "2022-01-10",
+                    content: "2022-01-10",
                     isShow: true,
                 },
                 {
                     id: 4,
-                    date: "2022-04",
-                    content: "2022-04",
+                    date: "2022-01-11",
+                    content: "2022-01-11",
                     isShow: true,
                 },
                 {
                     id: 5,
-                    date: "2022-05",
-                    content: "2022-05",
-                    isShow: true,
-                },
-                {
-                    id: 6,
-                    date: "2022-06",
-                    content: "2022-06",
+                    date: "2022-01-12",
+                    content: "2022-01-12",
                     isShow: true,
                 },
                 {
                     id: 7,
-                    date: "2022-07",
-                    content: "2022-07",
+                    date: "2022-01-13（预）",
+                    content: "2022-01-13（预测）",
                     isShow: true,
                 },
                 {
                     id: 8,
-                    date: "2022-08",
-                    content: "2022-08",
-                    isShow: true,
-                },
-                {
-                    id: 9,
-                    date: "2022-09",
-                    content: "2022-09",
-                    isShow: true,
-                },
-                {
-                    id: 10,
-                    date: "2022-10",
-                    content: "2022-10",
-                    isShow: true,
-                },
-                {
-                    id: 11,
-                    date: "2022-11",
-                    content: "2022-11",
-                    isShow: true,
-                },
-                {
-                    id: 12,
-                    date: "2022-12",
-                    content: "2022-12",
+                    date: "2022-01-14（预）",
+                    content: "2022-01-14（预）",
                     isShow: false,
-                }
+                },
             ]
         };
     },
@@ -115,7 +84,7 @@ export default {
                 fillColor: "#f03",
             });
             map.addOverlay(circle);
-            await listArea("2022-01").then(response => {
+            await listArea("2022-01-08").then(response => {
                 this.areas = response;
             });
             this.showArea(this.location, this.areas, map);
@@ -163,7 +132,7 @@ export default {
                                 if (!geo) {
                                     var location = house.location;
                                     var point = new BMap.Point(location.lng, location.lat);
-                                    //map.centerAndZoom(point, 19);
+                                    map.centerAndZoom(point, 19);
                                     var marker = new BMap.Marker(point);
                                     marker.setAnimation(BMAP_ANIMATION_BOUNCE);
                                     map.addOverlay(marker);
@@ -249,11 +218,9 @@ export default {
                 default:
                     break;
             }
-
             if (u.length <= 1) {
                 u = u.toString();
             }
-
             var result = {
                 type: n,
                 bound: i,
@@ -261,21 +228,8 @@ export default {
             };
             return result;
         },
-
         //时间轴更新地图
         async refresh(val) {
-            /*
-            this.map.addControl(new BMap.MapTypeControl());
-            this.map.centerAndZoom(point, 13);
-            var circle = new this.BMap.Circle(point, 6, {
-                strokeColor: "Blue",
-                strokeWeight: 6,
-                strokeOpacity: 1,
-                Color: "Blue",
-                fillColor: "#f03",
-            });
-            this.map.addOverlay(circle);
-            */
             let allOverlayList = this.map.getOverlays();
             //清除所有覆盖物
             for (var i = 0; i < allOverlayList.length; i++) {
@@ -288,7 +242,6 @@ export default {
         },
     },
 };
-
 </script>
 
 <style lang="scss" scoped>
@@ -297,4 +250,3 @@ export default {
     height: 781px;
 }
 </style>
-   

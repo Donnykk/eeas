@@ -48,8 +48,7 @@ public class EventServiceImpl extends ServiceImpl<EventMapper, Event> implements
      * @return 风险区域集合
      */
     public List<String> selectAreaList(String time) {
-        time += '%';
-        System.out.println(time);
+        time = time.substring(0, 10);
         List<String> res = eventMapper.selectAreaList(time);
         System.out.println(res);
         return res;

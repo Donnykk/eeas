@@ -24,7 +24,7 @@
     <select id="selectAreaList" resultMap="AreaResult">
         select place
         from eeas_event
-        where DATE_FORMAT(date, '%Y-%m-%d') like #{time_}
+        where DATE_FORMAT(date, '%Y-%m-%d') = #{time_}
     </select>
 
     <select id="selectEventList" parameterType="com.ruoyi.eeas.domain.Event" resultMap="EventResult">
