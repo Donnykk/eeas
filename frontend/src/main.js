@@ -43,6 +43,9 @@ import BaiduMap from 'vue-baidu-map'
 import echarts from 'echarts'
 import { VueJsonp } from 'vue-jsonp'
 
+import $ from "jquery";
+
+
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
 Vue.prototype.getConfigKey = getConfigKey
@@ -55,6 +58,8 @@ Vue.prototype.download = download
 Vue.prototype.handleTree = handleTree
 Vue.prototype.$echarts = echarts
 
+
+
 // 全局组件挂载
 Vue.component('DictTag', DictTag)
 Vue.component('Pagination', Pagination)
@@ -63,6 +68,8 @@ Vue.component('Editor', Editor)
 Vue.component('FileUpload', FileUpload)
 Vue.component('ImageUpload', ImageUpload)
 Vue.component('ImagePreview', ImagePreview)
+
+// Vue.forceUpdate()
 
 Vue.use(directive)
 Vue.use(plugins)

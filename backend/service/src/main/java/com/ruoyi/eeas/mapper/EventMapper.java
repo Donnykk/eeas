@@ -2,9 +2,10 @@ package com.ruoyi.eeas.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.eeas.domain.Event;
-import io.lettuce.core.dynamic.annotation.Param;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 事件数据Mapper接口
@@ -68,4 +69,60 @@ public interface EventMapper extends BaseMapper<Event> {
      * @return 结果
      */
     int deleteEventByIds(Long[] ids);
+
+    /**
+     * 根据日期以及任务ID查询封控数据
+     *
+     * @return 轨迹数据
+     */
+    String getByDateAndTaskId(@Param("date") String date, @Param("taskId") String taskId);
+
+    List<String> getPredictionPlace(@Param("date") String date, @Param("taskId") String taskId);
+
+    List<Map<String,Object>>  getInfluencePlace(@Param("date") String date, @Param("taskId") String taskId,@Param("place") String place,@Param("num") Integer num);
+
+    /**
+     * 根据日期查询封控小区预测数据
+     *
+     * @return 封控小区预测数据
+     */
+    String getPredictionDataByDate(String date);
+
+    /**
+     * 根据地点查询经纬度
+     *
+     * @return 经纬度
+     */
+    List<Map<String, String>> selectLongitudeAndLatitudeByPlace(String place);
+
+    /**
+     * 查询时间列表
+     * @return 时间列表
+     */
+    List<String> selectTimeList();
+
+    /**
+     * 获取场所类型和小区户数
+     * @param place 地名
+     * @return
+     */
+    Map<String, Object> getTypeAndHouseholds(String place);
+
+    /**
+     * 获取当天患者经过数
+     * @param date 日期
+     * @param place 地点
+     * @param taskId 任务id
+     * @return 当天患者经过数
+     */
+    Integer getAppear(@Param("date") String date, @Param("place") String place, @Param("taskId") String taskId);
+
+    /**
+     * 获取历史患者经过数
+     * @param date 日期
+     * @param place 地点
+     * @param taskId 任务id
+     * @return 历史患者经过数
+     */
+    Integer getHistory(@Param("date") String date, @Param("place") String place, @Param("taskId") String taskId);
 }

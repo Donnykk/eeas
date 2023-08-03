@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 事件数据Service业务层处理
@@ -96,5 +97,87 @@ public class EventServiceImpl extends ServiceImpl<EventMapper, Event> implements
     @Override
     public int deleteEventById(Long id) {
         return eventMapper.deleteEventById(id);
+    }
+
+    /**
+     * 根据日期查询封控数据
+     *
+     * @return 轨迹数据
+     */
+    @Override
+    public String getByDateAndTaskId(String date,String taskId) {
+        return eventMapper.getByDateAndTaskId(date,taskId);
+    }
+
+    @Override
+    public List<String> getPredictionPlace(String date,String taskID){
+        return eventMapper.getPredictionPlace(date,taskID);
+    }
+
+    @Override
+    public List<Map<String,Object>>  getInfluencePlace(String date,String taskID,String place,Integer num){
+        return eventMapper.getInfluencePlace(date,taskID,place,num);
+    }
+    /**
+     * 根据日期查询封控预测数据
+     *
+     * @return 轨迹数据
+     */
+    @Override
+    public String getPredictionDataByDate(String date) {
+        return eventMapper.getPredictionDataByDate(date);
+    }
+
+    /**
+     * 根据地点查询经纬度
+     *
+     * @return 经纬度
+     */
+    @Override
+    public List<Map<String, String>> selectLongitudeAndLatitudeByPlace(String place) {
+        return eventMapper.selectLongitudeAndLatitudeByPlace(place);
+    }
+
+    /**
+     * 查询时间列表
+     * @return 时间列表
+     */
+    @Override
+    public List<String> selectTimeList() {
+        return eventMapper.selectTimeList();
+    }
+
+    /**
+     * 获取场所类型和小区户数
+     * @param place 地名
+     * @return
+     */
+    @Override
+    public Map<String, Object> getTypeAndHouseholds(String place) {
+        return eventMapper.getTypeAndHouseholds(place);
+    }
+
+    /**
+     * 获取当天患者经过数
+     * @param date 日期
+     * @param place 地点
+     * @param taskId 任务id
+     * @return 当天患者经过数
+     */
+    @Override
+    public Integer getAppear(String date, String place, String taskId) {
+        return eventMapper.getAppear(date, place, taskId);
+    }
+
+    /**
+     * 获取历史患者经过数
+     * @param date 日期
+     * @param place 地点
+     * @param taskId 任务id
+     * @return 历史患者经过数
+     */
+    @Override
+    public Integer getHistory(String date, String place, String taskId) {
+        return eventMapper.getHistory(date, place, taskId);
     }
 }

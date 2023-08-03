@@ -1,6 +1,7 @@
 package com.ruoyi.eeas.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.eeas.domain.Event;
@@ -67,4 +68,68 @@ public interface IEventService extends IService<Event>
      * @return 结果
      */
     int deleteEventById(Long id);
+
+    /**
+     * 根据日期查询封控数据
+     *
+     * @return 轨迹数据
+     */
+    String getByDateAndTaskId(String date,String taskId);
+
+    /**
+     * 根据日期以及任务ID查询eeas_prediction_influence_place表的预测地点数据
+     */
+    List<String> getPredictionPlace(String date,String taskID);
+
+    /**
+     *
+     * 根据日期以及任务ID查询eeas_prediction_influence_place表的某个预测地点的影响力地点
+     */
+    List<Map<String,Object>> getInfluencePlace(String date,String taskID,String place,Integer num);
+
+    /**
+     * 根据日期查询封控预测数据
+     *
+     * @return 预测封控小区列表
+     */
+    String getPredictionDataByDate(String date);
+
+    /**
+     * 根据地点查询经纬度
+     *
+     * @return 经纬度
+     */
+    List<Map<String, String>> selectLongitudeAndLatitudeByPlace(String place);
+
+    /**
+     * 查询时间列表
+     * @return 时间列表
+     */
+    List<String> selectTimeList();
+
+    /**
+     * 获取场所类型和小区户数
+     * @param place 地名
+     * @return 场所类型和小区户数
+     */
+    Map<String, Object> getTypeAndHouseholds(String place);
+
+    /**
+     * 获取当天患者经过数
+     * @param date 日期
+     * @param place 地点
+     * @param taskId 任务id
+     * @return 当天患者经过数
+     */
+    Integer getAppear(String date, String place, String taskId);
+
+    /**
+     * 获取历史患者经过数
+     * @param date 日期
+     * @param place 地点
+     * @param taskId 任务id
+     * @return 历史患者经过数
+     */
+    Integer getHistory(String date, String place, String taskId);
+
 }

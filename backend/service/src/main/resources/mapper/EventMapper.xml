@@ -1,86 +1,104 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.eeas.mapper.EventMapper">
 
     <resultMap type="com.ruoyi.eeas.domain.Event" id="EventResult">
-        <result property="id" column="id"/>
-        <result property="time" column="time"/>
-        <result property="place" column="place"/>
-        <result property="event" column="event"/>
-        <result property="source" column="source"/>
+        <result property="id" column="id" />
+        <result property="time" column="time" />
+        <result property="place" column="place" />
+        <result property="event" column="event" />
+        <result property="source" column="source" />
     </resultMap>
 
     <resultMap type="String" id="AreaResult">
-        <result property="place" column="place"/>
+        <result property="place" column="place" />
     </resultMap>
 
-    <sql id="selectEventVo">
-        select id, time, place, event, source
-        from eeas_event
-    </sql>
+    <sql id="selectEventVo"> select id, time, place, event, source from eeas_event </sql>
 
-    <select id="selectAreaList" resultMap="AreaResult">
-        select place
-        from eeas_event
-        where DATE_FORMAT(date, '%Y-%m-%d') = #{time_}
-    </select>
+    <select id="selectAreaList" resultType="java.lang.String"> select place from eeas_event where
+        DATE_FORMAT(date, '%Y-%m-%d') like #{time_} </select>
 
     <select id="selectEventList" parameterType="com.ruoyi.eeas.domain.Event" resultMap="EventResult">
-        <include refid="selectEventVo"/>
+        <include refid="selectEventVo" />
         <where>
             <if test="time != null ">and time = #{time}</if>
-            <if test="place != null  and place != ''">and place = #{place}</if>
-            <if test="event != null ">and event = #{event}</if>
-            <if test="source != null ">and source = #{source}</if>
+            <if
+                test="place != null  and place != ''">and place = #{place}</if>
+            <if
+                test="event != null ">and event = #{event}</if>
+            <if test="source != null ">and source
+        = #{source}</if>
         </where>
     </select>
 
     <select id="selectEventById" parameterType="Long" resultMap="EventResult">
-        <include refid="selectEventVo"/>
-        where id = #{id}
-    </select>
+        <include refid="selectEventVo" /> where id = #{id} </select>
 
-    <insert id="insertEvent" parameterType="com.ruoyi.eeas.domain.Event">
-        insert into eeas_event
-        <trim prefix="(" suffix=")" suffixOverrides=",">
+    <insert id="insertEvent" parameterType="com.ruoyi.eeas.domain.Event"> insert into eeas_event <trim
+            prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
             <if test="time != null">time,</if>
-            <if test="place != null">place,</if>
+            <if test="place != null">
+        place,</if>
             <if test="event != null">event,</if>
             <if test="source != null">source,</if>
         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <trim
+            prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
             <if test="time != null">#{time},</if>
-            <if test="place != null">#{place},</if>
+            <if
+                test="place != null">#{place},</if>
             <if test="event != null">#{event},</if>
-            <if test="source != null">#{source},</if>
+            <if
+                test="source != null">#{source},</if>
         </trim>
     </insert>
 
-    <update id="updateEvent" parameterType="com.ruoyi.eeas.domain.Event">
-        update eeas_event
-        <trim prefix="SET" suffixOverrides=",">
+    <update id="updateEvent" parameterType="com.ruoyi.eeas.domain.Event"> update eeas_event <trim
+            prefix="SET" suffixOverrides=",">
             <if test="time != null">time = #{time},</if>
             <if test="place != null">place = #{place},</if>
-            <if test="event != null">event = #{event},</if>
-            <if test="source != null">source = #{source},</if>
-        </trim>
-        where id = #{id}
-    </update>
+            <if
+                test="event != null">event = #{event},</if>
+            <if test="source != null">source =
+        #{source},</if>
+        </trim> where id = #{id} </update>
 
-    <delete id="deleteEventById" parameterType="Long">
-        delete
-        from eeas_event
-        where id = #{id}
+    <delete id="deleteEventById" parameterType="Long"> delete from eeas_event where id = #{id} </delete>
+
+    <delete id="deleteEventByIds" parameterType="String"> delete from eeas_event where id in <foreach
+            item="id" collection="array" open="(" separator="," close=")"> #{id} </foreach>
     </delete>
 
-    <delete id="deleteEventByIds" parameterType="String">
-        delete from eeas_event where id in
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </delete>
+    <select id="getByDateAndTaskId" parameterType="String" resultType="String"> select place from
+        eeas_event_sealed where time = #{date} and task_id=#{taskId} </select>
+
+    <select id="getPredictionDataByDate" parameterType="String" resultType="String"> select place
+        from eeas_event_sealed_prediction where time = #{date} </select>
+
+    <select id="getPredictionPlace" parameterType="String" resultType="String"> select place from
+        eeas_prediction_influence_place where time = #{date} and task_id=#{taskId} </select>
+
+    <select id="getInfluencePlace" resultType="java.util.Map"> select longitude, latitude,
+        influence_score from (select influence_place, influence_score from
+        eeas_prediction_influence_place where time=#{date} and task_id=#{taskId} and place=#{place}
+        order by influence_score desc limit #{num}) as a join eeas_place as b on a.influence_place =
+        b.place; </select>
+
+    <select id="selectLongitudeAndLatitudeByPlace" parameterType="String" resultType="Map"> select
+        longitude, latitude from eeas_place where place = #{place} </select>
+
+    <select id="selectTimeList" resultType="String"> select time from eeas_event_sealed order by
+        time asc </select>
+
+    <select id="getTypeAndHouseholds" parameterType="String" resultType="java.util.Map"> select
+        type, households from eeas_place where place = #{place} </select>
+
+    <select id="getAppear" parameterType="String" resultType="java.lang.Integer"> select count(*)
+        from eeas_trajectory where place = #{place} and start_time = #{date} and task_id = #{taskId} </select>
+
+    <select id="getHistory" resultType="java.lang.Integer"> select count(*) from eeas_trajectory
+        where place = #{place} and start_time <![CDATA[<=]]> #{date} and task_id = #{taskId} </select>
 </mapper>

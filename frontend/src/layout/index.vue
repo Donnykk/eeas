@@ -1,16 +1,23 @@
 <template>
-  <div :class="classObj" class="app-wrapper" :style="{'--current-color': theme}">
-    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
-    <sidebar v-if="!sidebar.hide" class="sidebar-container" />
-    <div :class="{hasTagsView:needTagsView,sidebarHide:sidebar.hide}" class="main-container">
-      <div :class="{'fixed-header':fixedHeader}">
-        <navbar />
-        <tags-view v-if="needTagsView" />
+  <div>
+    <div v-if="this.user.roles.indexOf('admin') != -1" :class="classObj" class="app-wrapper" :style="{'--current-color': theme}">
+      <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
+      <sidebar v-if="!sidebar.hide" class="sidebar-container" />
+      <div :class="{hasTagsView:needTagsView,sidebarHide:sidebar.hide}" class="main-container">
+        <div>
+          <navbar />
+          <tags-view v-if="needTagsView" />
+        </div>
+        <app-main />
+        <right-panel>
+          <settings />
+        </right-panel>
       </div>
+    </div>
+
+    <div v-if="this.user.roles.indexOf('common') != -1">
+      <navbar />
       <app-main />
-      <right-panel>
-        <settings />
-      </right-panel>
     </div>
   </div>
 </template>
@@ -21,6 +28,7 @@ import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 import { mapState } from 'vuex'
 import variables from '@/assets/styles/variables.scss'
+import { create } from 'quill'
 
 export default {
   name: 'Layout',
@@ -58,6 +66,16 @@ export default {
     handleClickOutside() {
       this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }
+  },
+  data() {
+    return {
+      user: null
+    };
+  },
+  created() {
+    this.user = this.$store.state.user
+    // console.log(this.user.roles)
+    // console.log(this.user.roles.indexOf('admin'))
   }
 }
 </script>

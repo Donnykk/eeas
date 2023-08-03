@@ -50,3 +50,60 @@ export function delEvent(id) {
     method: 'delete'
   })
 }
+
+// 根据日期以及任务ID查询封控/患者经过/both列表
+export function getByDateAndTaskId(date,taskId) {
+  return request({
+    url: '/data/event/getByDate/' + date +"/" + taskId,
+    method: 'get',
+  })
+}
+
+// 根据日期以及任务ID查询不同集群下的地区列表，具有相同聚类值的地点为同一个集群
+export function getClusterByDateAndTaskId(date,taskId) {
+  return request({
+    url: '/data/event/getClusterByDate/' + date +"/" + taskId,
+    method: 'get',
+  })
+}
+
+// 根据日期以及任务ID查询预测地点
+export function getPredictionPlace(date,taskId) {
+  return request({
+    url: '/data/event/getPredictionPlace/' + date +"/" + taskId,
+    method: 'get',
+  })
+}
+
+// 根据日期以及任务ID查询对于某个预测地点有影响力的地点
+export function getInfluencePlace(date,taskId,place) {
+  return request({
+    url: '/data/event/getInfluencePlace/' + date +"/" + taskId+"/"+place,
+    method: 'get',
+  })
+}
+
+
+// 根据日期查询封控小区预测数据
+export function getPredictionDataByDate(date) {
+  return request({
+    url: '/data/event/getPredictionDataByDate/' + date,
+    method: 'get',
+  })
+}
+
+// 查询时间列表
+export function getTimeList() {
+  return request({
+    url: '/data/event/time',
+    method: 'get',
+  })
+}
+
+// 根据日期，地点及任务ID查询地点信息
+export function getPlaceInfo(date, place, taskId) {
+  return request({
+    url: '/data/event/getPlaceInfo/' + date +"/" + place +"/" + taskId,
+    method: 'get',
+  })
+}
